@@ -23,9 +23,11 @@ typedef struct Point
 int main (int argc, char* argv[])
 {
     //struct Point p;
-    Point p;
-    p.x = 0.24;
-    p.y = 0.78;
+    Point p = {
+        .x = 0.25,
+        .y = .43
+    };
+
     printf("%lf %lf\n", p.x, p.y);
 
     UINT64 l = 14;
