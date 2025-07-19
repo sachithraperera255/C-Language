@@ -26,5 +26,6 @@ int main (int argc, char* argv[])
 {
     Color c = RED;
     printf("%d\n", c);
+    printf("%zu\n", sizeof(c));
     return 0;
 }
