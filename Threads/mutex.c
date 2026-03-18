@@ -22,21 +22,27 @@ int mails = 0;
         without been interupted from other threads
 */
 
-/*
-    - 
-*/
+
+// Creating mutex variable
+pthread_mutex_t mutex;
 
 void* routine()
 {
+
     for (int i = 0; i < 100000; i++)
     {
+        pthread_mutex_lock(&mutex);
         mails++;
+        pthread_mutex_unlock(&mutex);
     }
 }
 
 int main(int argc, char* argv[])
 {
     pthread_t p1, p2;
+
+    // Initializing the mutex
+    pthread_mutex_init(&mutex, NULL);
 
     if(pthread_create(&p1, NULL, &routine, NULL) != 0)
     {
@@ -57,6 +63,9 @@ int main(int argc, char* argv[])
     {
         return 4;
     }
+
+    // by destroying, it will free the system resources associated with mutex object
+    pthread_mutex_destroy(&mutex);
 
     printf("Number of mails %d\n", mails);
 
