@@ -18,10 +18,13 @@ int main (int argc, char* argv[])
     
     pthread_t threads[4];
     pthread_mutex_init(&mutex, NULL);
-
+    /*
+        - It is important to have thread creation and joining in two different loops. if they both done 
+        in the same loop it would be similar to linear execution of a program.
+    */
     for(int i = 0; i < 4; i++)
     {
-        if(pthread_create(&threads + i, NULL, &routine, NULL) != 0)
+        if(pthread_create(&threads[0] + i, NULL, &function1, NULL) != 0)
         {
             printf("Failed to create threads\n");
             return 1;
