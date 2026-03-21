@@ -8,9 +8,12 @@ pthread_mutex_t mutex;
 
 void* function1()
 {
-    pthread_mutex_lock(&mutex);
-    count++;
-    pthread_mutex_unlock(&mutex);
+    for (int i = 0; i < 100000; i++)
+    {
+        pthread_mutex_lock(&mutex);
+        count++;
+        pthread_mutex_unlock(&mutex);
+    }
 }
 
 int main (int argc, char* argv[])
@@ -43,6 +46,7 @@ int main (int argc, char* argv[])
         printf("Thread %d has finished execution\n",i);
     }
     pthread_mutex_destroy(&mutex);
+    printf("Number of counts: %d\n", count);
 
     return 0;
 }
