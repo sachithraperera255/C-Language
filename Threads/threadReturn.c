@@ -6,6 +6,7 @@
 void* roll_dice()
 {
     int value = (rand() % 6) + 1;
+    // Allocated in the heap because stack memory disapprears when function return
     int* result = malloc(sizeof(int));
     *result = value;
     return (void*) result;
@@ -13,6 +14,7 @@ void* roll_dice()
 
 int main(int argc, char* argv[])
 {
+    // We need this pointer variable because the thread or the fuction return the pointer
     int* res;
     srand(time(NULL));
     pthread_t p;
