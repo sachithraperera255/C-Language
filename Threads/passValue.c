@@ -26,12 +26,30 @@ int main(int argc, char* argv[])
 
     for(int i = 0; i < size; i++)
     {
+        /*
+            - It is very important remember that threads share memory and other resources. if 
+            address of i was passed to the thread, its behaviour will be unpredictable because 
+            even though i increments in the loop it shares the same address.
+
+            - As a solution to the above mentioned issue, memory is created in the heap and incremented i
+            is saved there to give each threads its own memory address.
+        */
         int* heap = malloc(sizeof(int));
         *heap = i;
         if(pthread_create(&numThreads[i], NULL, &routine, heap) != 0)
         {
             perror("Failed to create threads!\n");
         }
+
+        /*
+            - Using following method, allocation memory can be avoided. In this case, address of
+            array's elements are used.
+        if(pthread_create(&numThreads[i], NULL, &routine, prime + i) != 0)
+        {
+            perror("Failed to create threads!\n");
+        }
+
+        */
 
     }
 
