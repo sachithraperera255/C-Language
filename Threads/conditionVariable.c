@@ -7,9 +7,11 @@
 pthread_mutex_t mute;
 // Creating a condition variable
 pthread_cond_t fuelCond;
-
+// shared variable
 int fuel = 0;
 
+
+// This thread is adding fuel to car, producer
 void *fuel_filling(void *arg)
 {
     for (int i = 0; i < 5; i++)
@@ -23,6 +25,8 @@ void *fuel_filling(void *arg)
     }
 }
 
+
+// This thread is waiting for enough fuel, consume. Fuel gotta be more than 40
 void *car(void *arg)
 {
     pthread_mutex_lock(&mute);
@@ -31,10 +35,11 @@ void *car(void *arg)
         printf("No fuel, waiting\n");
         // Waiting for a signal from another thread
         pthread_cond_wait(&fuelCond, &mute);
+
     }
     
-    fuel -= 40;
     printf("Got fuel. Now left: %d\n", fuel);
+    fuel -= 40;
     pthread_mutex_unlock(&mute);
 }
 
