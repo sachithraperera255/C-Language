@@ -35,6 +35,7 @@ void *car(void *arg)
         printf("No fuel, waiting\n");
         // Waiting for a signal from another thread
         pthread_cond_wait(&fuelCond, &mute);
+        // When above line is executed it unlock the mutex, put the thread to sleep and re-lock the mutex when woken up
 
     }
     
