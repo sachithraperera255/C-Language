@@ -17,10 +17,15 @@ void *fuel_filling(void *arg)
     for (int i = 0; i < 5; i++)
     {
         pthread_mutex_lock(&mute);
-        fuel += 15;
+        fuel += 30;
         printf("Filled fuel... %d\n", fuel);
         pthread_mutex_unlock(&mute);
-        pthread_cond_signal(&fuelCond);
+        // Send a signal to car thread, and received by pthread_cond_wait
+        //pthread_cond_signal(&fuelCond);
+
+        // Following line broadcast a signal to all threads that listening. (5 car threads)
+        // This allow multiple car to wait and multiple fuller to work simultaneously
+        pthread_cond_broadcast(&fuelCond);
         sleep(1);
     }
 }
@@ -46,13 +51,13 @@ void *car(void *arg)
 
 int main(int argc, char *argv[])
 {
-    pthread_t th[2];
+    pthread_t th[6];
     pthread_mutex_init(&mute, NULL);
     pthread_cond_init(&fuelCond, NULL);
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 6; i++)
     {
-        if (i == 1)
+        if (i == 5)
         {
 
             if (pthread_create(&th[i], NULL, &fuel_filling, NULL) != 0)
@@ -69,7 +74,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 6; i++)
     {
         if (pthread_join(th[i], NULL) != 0)
         {
