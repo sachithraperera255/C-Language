@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < 6; i++)
     {
-        if (i == 5)
+        if (i == 4 || i == 5)
         {
 
             if (pthread_create(&th[i], NULL, &fuel_filling, NULL) != 0)
