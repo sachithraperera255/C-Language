@@ -10,14 +10,14 @@
 // The following struct represent bit-fields of a data packet.
 struct Packets
 {
-    uint8_t crc:        2;
-    uint8_t status:     1;
-    uint16_t payload:   12;
-    uint8_t bat:        3;
-    uint8_t sensor:     3;
-    uint8_t longAddr:   8;
-    uint8_t shortAddr:  2;
-    uint8_t addrMode:   1;
+    uint32_t crc:        2;
+    uint32_t status:     1;
+    uint32_t payload:   12;
+    uint32_t bat:        3;
+    uint32_t sensor:     3;
+    uint32_t longAddr:   8;
+    uint32_t shortAddr:  2;
+    uint32_t addrMode:   1;
 };
 
 int main(void)
@@ -52,7 +52,7 @@ int main(void)
     printf("shortAddr       :%x\n", packet.shortAddr);
     printf("addrMode        :%x\n", packet.addrMode);
 
-    printf("size of struct packet: %ld\n", sizeof(packet));
+    printf("size of struct packet: %zu\n", sizeof(packet));
 
 
     return 0;
